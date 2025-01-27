@@ -15,10 +15,12 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
     <h3>Generate Boiler-plate code of Hexagonal Architecture</h3><br>
-                <p>Enter your Class File(Dto),  Mouse Right Click Generate Menu</p><br>
-                <p>You can see ConvertDtoToSingleResultMap, ConvertDtoToMultipleResultMap</p><br>
-                <p>If Click ConvertDtoToSingleResultMap, Only This class Converted On Your Clipboard</p><br>
-                <p>If Click ConvertDtoToMultipleResultMap, Recursive search You Class And Converted On Your Clipboard (10Times)</p><br>
+                <p>It’s very simple to create classes of hexagonal-architecture.</p><br>
+                <p>1. Choose your programming language.(Java / Kotlin)</p><br>
+                <p>2. Enter your common prefix of classes.
+(Ex : If you enter createOrder, the tree structure shown above will be generated.)</p><br>
+                <p>ps. It was developed for personal purposes, so customization is not possible.</p><br>
+                <p>I support you in developing with Clean Architecture!</p><br>
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
