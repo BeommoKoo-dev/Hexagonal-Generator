@@ -1,5 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
+    <idea-version since-build="221.0" until-build="243.*"/>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
@@ -16,8 +17,10 @@
     <description><![CDATA[
     <h3>Generate Boiler-plate code of Hexagonal Architecture</h3><br>
                 <p>It’s very simple to create classes of hexagonal-architecture.</p><br>
-                <p>1. Choose your programming language.(Java / Kotlin)</p><br>
-                <p>2. Enter your common prefix of classes.
+                <p>1. Select the source directory where you want to generate hexagonal files.</p><br>
+                <p>2. Click "New" -> "HexagonalClassGenerate" (or open "New" using the keyboard shortcut).</p><br>
+                <p>3. Choose your programming language.(Java / Kotlin)</p><br>
+                <p>4. Enter your common prefix of classes.
 (Ex : If you enter createOrder, the tree structure shown above will be generated.)</p><br>
                 <p>ps. It was developed for personal purposes, so customization is not possible.</p><br>
                 <p>I support you in developing with Clean Architecture!</p><br>
@@ -28,6 +31,10 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
     <depends>org.jetbrains.kotlin</depends>
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK2="true"/>
+    </extensions>
+
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
@@ -39,7 +46,9 @@
         <action id="HexagonalClassGenerate" class="com.example.hexagonalplugin.HexagonalClassGenerator"
                 text="HexagonalClassGenerate" description="Generate class consisted of Hexagonal Architecture."
                 icon="AllIcons.Actions.AddFile">
-            <add-to-group group-id="NewGroup" anchor="first"/>
+            <add-to-group group-id="NewGroup"
+                          anchor="after"
+                          relative-to-action="NewDir"/>
         </action>
     </actions>
 </idea-plugin>
