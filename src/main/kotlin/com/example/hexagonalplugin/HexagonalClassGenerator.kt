@@ -41,6 +41,9 @@ class HexagonalClassGenerator : AnAction() {
             chosenLanguage, virtualFile, project, stringBuilder
         )
         hexagonalClassGeneratorHelper.createHexagonalFiles()
+        if (!stringBuilder.isEmpty()) {
+            Messages.showErrorDialog(stringBuilder.toString(), "Info")
+        }
     }
 
     private fun createSelectForProgrammingLanguagePopup(virtualFile: VirtualFile, project: Project): JBPopup {

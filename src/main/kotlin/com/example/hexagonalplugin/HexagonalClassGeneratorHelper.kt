@@ -12,6 +12,7 @@ import java.io.File
 
 const val JAVA = "java"
 const val KOTLIN = "kotlin"
+val SEPARATOR = File.separator
 
 class HexagonalClassGeneratorHelper(
     private val fileName: String,
@@ -22,6 +23,7 @@ class HexagonalClassGeneratorHelper(
 ) {
 
     fun createHexagonalFiles() {
+        stringBuilder.clear()
         // 선택한 언어에 맞는 파일 확장자 설정
         val languageProperty = when (chosenLanguage) {
             KOTLIN -> LanguageProperty.KOTLIN
@@ -36,10 +38,11 @@ class HexagonalClassGeneratorHelper(
         createPortInFile(languageProperty)
         createPortOutFile(languageProperty)
         createServiceFile(languageProperty)
+
     }
 
     private fun createAdapterOutFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("/adapter/out")
+        val directory = createDirectory("${SEPARATOR}adapter${SEPARATOR}out")
         val postfix = "Adapter"
         val interfaceName = "Port"
         createFile(
@@ -56,7 +59,7 @@ class HexagonalClassGeneratorHelper(
     private fun createAdapterInFile(
         languageProperty: LanguageProperty
     ) {
-        val directory = createDirectory("/adapter/in")
+        val directory = createDirectory("${SEPARATOR}adapter${SEPARATOR}in")
         val postfix = "Controller"
         createFile(
             directory,
@@ -67,7 +70,7 @@ class HexagonalClassGeneratorHelper(
     }
 
     private fun createPortInFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("application/port/in")
+        val directory = createDirectory("${SEPARATOR}application${SEPARATOR}port${SEPARATOR}in")
         val postfix = "UseCase"
         createFile(
             directory,
@@ -78,7 +81,7 @@ class HexagonalClassGeneratorHelper(
     }
 
     private fun createPortOutFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("application/port/out")
+        val directory = createDirectory("${SEPARATOR}application${SEPARATOR}port${SEPARATOR}out")
         val postfix = "Port"
         createFile(
             directory,
@@ -89,7 +92,7 @@ class HexagonalClassGeneratorHelper(
     }
 
     private fun createServiceFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("/domain/service")
+        val directory = createDirectory("${SEPARATOR}domain${SEPARATOR}service")
         val postfix = "Service"
         val interfaceName = "UseCase"
         createFile(
@@ -138,13 +141,14 @@ class HexagonalClassGeneratorHelper(
         template: String
     ) {
         val psiDirectory = PsiManager.getInstance(project).findDirectory(directory)
+        val trimedFileName = fileName.trim()
 
         if (psiDirectory != null) {
-            var psiFile = psiDirectory.findFile(fileName)
+            var psiFile = psiDirectory.findFile(trimedFileName)
             if (psiFile == null) {
                 psiFile =
                     PsiFileFactory.getInstance(project)
-                        .createFileFromText(fileName, languageProperty.fileType, template)
+                        .createFileFromText(trimedFileName, languageProperty.fileType, template)
 
                 // Add PsiFile to PsiDirectory
                 WriteCommandAction.runWriteCommandAction(project) {
@@ -154,20 +158,20 @@ class HexagonalClassGeneratorHelper(
             // if file already exists.
             else {
                 if (stringBuilder.isEmpty()) {
-                    stringBuilder.append("$fileName Already Exists. So We failed to generate that class.")
+                    stringBuilder.append("$trimedFileName Already Exists. So We failed to generate that class.")
                 } else {
                     stringBuilder.append('\n')
-                        .append("$fileName Already Exists. So We failed to generate that class.")
+                        .append("$trimedFileName Already Exists. So We failed to generate that class.")
                 }
             }
         }
 
-        var classFile = directory.findChild(fileName)
+        var classFile = directory.findChild(trimedFileName)
 
         if (classFile == null) {
             WriteCommandAction.runWriteCommandAction(project) {
                 // 파일 생성
-                classFile = directory.createChildData(this, fileName)
+                classFile = directory.createChildData(this, trimedFileName)
             }
         }
     }

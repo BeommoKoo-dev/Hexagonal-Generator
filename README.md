@@ -39,3 +39,5 @@ There’s just 2 steps for this plugin.
 ps. It was developed for personal purposes, so customization is not possible.
 
 I support you in developing with Hexagonal Architecture!
+
+More info : https://plugins.jetbrains.com/plugin/26418-hexagonal-generator/
