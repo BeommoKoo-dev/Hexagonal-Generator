@@ -12,9 +12,9 @@ import java.io.File
 
 const val JAVA = "java"
 const val KOTLIN = "kotlin"
-val SEPARATOR = File.separator
 
 class HexagonalClassGeneratorHelper(
+    private val filePathGenerator: FilePathGenerator,
     private val fileName: String,
     private val chosenLanguage: String,
     private val virtualFile: VirtualFile,
@@ -33,16 +33,15 @@ class HexagonalClassGeneratorHelper(
 
         // creates components of hexagonal-architecture.
         // each methods create directory & class files.
-        createAdapterInFile(languageProperty)
-        createAdapterOutFile(languageProperty)
-        createPortInFile(languageProperty)
-        createPortOutFile(languageProperty)
-        createServiceFile(languageProperty)
-
+        createAdapterOutFile(languageProperty, filePathGenerator)
+        createAdapterInFile(languageProperty, filePathGenerator)
+        createPortInFile(languageProperty, filePathGenerator)
+        createPortOutFile(languageProperty, filePathGenerator)
+        createServiceFile(languageProperty, filePathGenerator)
     }
 
-    private fun createAdapterOutFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("${SEPARATOR}adapter${SEPARATOR}out")
+    private fun createAdapterOutFile(languageProperty: LanguageProperty, filePathGenerator: FilePathGenerator) {
+        val directory = createDirectory(filePathGenerator.generate(FilePathProperty.ADAPTER_OUT))
         val postfix = "Adapter"
         val interfaceName = "Port"
         createFile(
@@ -57,9 +56,10 @@ class HexagonalClassGeneratorHelper(
     }
 
     private fun createAdapterInFile(
-        languageProperty: LanguageProperty
+        languageProperty: LanguageProperty,
+        filePathGenerator: FilePathGenerator
     ) {
-        val directory = createDirectory("${SEPARATOR}adapter${SEPARATOR}in")
+        val directory = createDirectory(filePathGenerator.generate(FilePathProperty.ADAPTER_IN))
         val postfix = "Controller"
         createFile(
             directory,
@@ -69,8 +69,11 @@ class HexagonalClassGeneratorHelper(
         )
     }
 
-    private fun createPortInFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("${SEPARATOR}application${SEPARATOR}port${SEPARATOR}in")
+    private fun createPortInFile(
+        languageProperty: LanguageProperty,
+        filePathGenerator: FilePathGenerator
+    ) {
+        val directory = createDirectory(filePathGenerator.generate(FilePathProperty.PORT_IN))
         val postfix = "UseCase"
         createFile(
             directory,
@@ -80,8 +83,11 @@ class HexagonalClassGeneratorHelper(
         )
     }
 
-    private fun createPortOutFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("${SEPARATOR}application${SEPARATOR}port${SEPARATOR}out")
+    private fun createPortOutFile(
+        languageProperty: LanguageProperty,
+        filePathGenerator: FilePathGenerator
+    ) {
+        val directory = createDirectory(filePathGenerator.generate(FilePathProperty.PORT_OUT))
         val postfix = "Port"
         createFile(
             directory,
@@ -91,8 +97,11 @@ class HexagonalClassGeneratorHelper(
         )
     }
 
-    private fun createServiceFile(languageProperty: LanguageProperty) {
-        val directory = createDirectory("${SEPARATOR}domain${SEPARATOR}service")
+    private fun createServiceFile(
+        languageProperty: LanguageProperty,
+        filePathGenerator: FilePathGenerator
+    ) {
+        val directory = createDirectory(filePathGenerator.generate(FilePathProperty.SERVICE))
         val postfix = "Service"
         val interfaceName = "UseCase"
         createFile(
