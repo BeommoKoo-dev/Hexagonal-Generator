@@ -113,13 +113,13 @@ class HexagonalClassGenerator : AnAction() {
         val textField = JTextField()
         val confirmButton = JButton("Next")
 
-        panel.add(JLabel("Enter Domain Name for Package Name:"), BorderLayout.NORTH)
+        panel.add(JLabel("Enter Domain Name for Package Name(Domain Name is Nullable.):"), BorderLayout.NORTH)
         panel.add(textField, BorderLayout.CENTER)
         panel.add(confirmButton, BorderLayout.SOUTH)
 
         val popup = JBPopupFactory.getInstance()
             .createComponentPopupBuilder(panel, textField)
-            .setTitle("Input Required")
+            .setTitle("Enter")
             .setFocusable(true)
             .setRequestFocus(true)
             .setResizable(false)
@@ -134,12 +134,8 @@ class HexagonalClassGenerator : AnAction() {
 
         val actionListener = ActionListener {
             val userInput = textField.text
-            if (userInput.isNotBlank()) {
-                popup.closeOk(null)
-                onInputConfirmed(userInput)
-            } else {
-                Messages.showErrorDialog("Please enter a value!", "Error")
-            }
+            popup.closeOk(null)
+            onInputConfirmed(userInput)
         }
 
         // 버튼에 리스너 추가
